@@ -5,7 +5,7 @@ const filePath = './info.json';
 const datajson = require(filePath);
 
 app.use(express.json());
-console.log(datajson);
+
 const port = process.env.PORT || 3000;
 
 app.post('/write', (req, res) => {
