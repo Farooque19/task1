@@ -19,7 +19,6 @@ app.post('/write', (req, res) => {
         if (!exists) {    
             fs.writeFile(filePath, '[' + content + ']', (err) => {
                 if (err) {
-                    console.error('Error writing to file:', err);
                     return res.status(500).send('Error writing to the file.');
                 }
                 return res.status(200).send('Content written to the file.');
@@ -27,14 +26,12 @@ app.post('/write', (req, res) => {
         } else {
             fs.readFile(filePath, 'utf8', (err, data) => {
                 if (err) {
-                    console.error('Error reading file:', err);
                     return res.status(500).send('Error reading file.');
                 }
 
                 if (data === '' || data.trim() === '' || data === '[]') {
                     fs.writeFile(filePath, '[' + content + ']', (err) => {
                         if (err) {
-                            console.error('Error writing to file:', err);
                             return res.status(500).send('Error writing to the file.');
                         }
                         return res.status(200).send('Content written to the file.');
@@ -44,7 +41,6 @@ app.post('/write', (req, res) => {
                     const newData = data.slice(0, -1) + ',' + content + ']';
                     fs.writeFile(filePath, newData, (err) => {
                         if (err) {
-                            console.error('Error writing to file:', err);
                             return res.status(500).send('Error writing to the file.');
                         }
                         return res.status(200).send('Content written to the file.');
@@ -66,7 +62,6 @@ app.get('/read', (req, res) => {
         }else{
             fs.readFile(filePath, 'utf8', (err, data) => {
                 if (err) {
-                    console.error('Error reading file:', err);
                     return res.status(500).send('Error reading file.');
                 }
         
@@ -81,7 +76,6 @@ app.delete('/delete/:id', (req, res) => {
 
     fs.readFile(filePath, 'utf8', (err, data) => {
         if (err) {
-            console.error('Error reading file:', err);
             return res.status(500).send('Error reading file.');
         }
 
@@ -89,7 +83,6 @@ app.delete('/delete/:id', (req, res) => {
         try {
             items = JSON.parse(data);
         } catch (parseError) {
-            console.error('Error parsing JSON:', parseError);
             return res.status(500).send('Error parsing JSON.');
         }
 
@@ -101,7 +94,6 @@ app.delete('/delete/:id', (req, res) => {
 
             fs.writeFile(filePath, JSON.stringify(items, null, 5), (err) => {
                 if (err) {
-                    console.error('Error writing to file:', err);
                     return res.status(500).send('Error writing to the file.');
                 }
 
@@ -118,7 +110,6 @@ app.put('/update/:id', (req, res) => {
 
     fs.readFile(filePath, 'utf8', (err, data) => {
         if (err) {
-            console.error('Error reading file:', err);
             return res.status(500).send('Error reading file.');
         }
 
@@ -126,7 +117,6 @@ app.put('/update/:id', (req, res) => {
         try {
             items = JSON.parse(data);
         } catch (parseError) {
-            console.error('Error parsing JSON:', parseError);
             return res.status(500).send('Error parsing JSON.');
         }
 
@@ -144,7 +134,6 @@ app.put('/update/:id', (req, res) => {
 
             fs.writeFile(filePath, JSON.stringify(items, null, 5), (err) => {
                 if (err) {
-                    console.error('Error writing to file:', err);
                     return res.status(500).send('Error writing to the file.');
                 }
 
