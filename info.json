@@ -21,12 +21,11 @@
      },
      {
           "id": 3,
-          "name": "Nandani",
-          "email": "nandani@gmail.com",
-          "profession": "business analyst",
-          "experience": 2,
-          "salary": 46000,
-          "hike": null,
-          "salary_after_hike": null
+          "name": 0,
+          "email": 0,
+          "experience": 0,
+          "salary": 0,
+          "hike": 0,
+          "salary_after_hike": 0
      }
 ]

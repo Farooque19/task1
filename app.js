@@ -6,7 +6,7 @@ const datajson = require(filePath);
 
 app.use(express.json());
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 8080;
 
 app.post('/write', (req, res) => {
     const content = JSON.stringify(req.body,null,5);
@@ -29,7 +29,7 @@ app.post('/write', (req, res) => {
                     return res.status(500).send('Error reading file.');
                 }
 
-                if (data === '' || data.trim() === '' || data === '[]') {
+                if (data.trim() === '' || data === '[]') {
                     fs.writeFile(filePath, '[' + content + ']', (err) => {
                         if (err) {
                             return res.status(500).send('Error writing to the file.');
@@ -52,14 +52,7 @@ app.post('/write', (req, res) => {
 });
 
 app.get('/read', (req, res) => {
-    fs.exists(filePath, (exists) => {
-        if(!exists){
-            fs.open(filePath, 'w', (err, file) => {
-                if(err){
-                    throw err;
-                }
-            });
-        }else{
+
             fs.readFile(filePath, 'utf8', (err, data) => {
                 if (err) {
                     return res.status(500).send('Error reading file.');
@@ -67,10 +60,7 @@ app.get('/read', (req, res) => {
         
                 res.status(200).send(data.trim() === '' ? [] : JSON.parse(data));
             });
-        }
-    });
-});
-
+        });
 app.delete('/delete/:id', (req, res) => {
     const id = req.params.id;
 
@@ -124,10 +114,10 @@ app.put('/update/:id', (req, res) => {
 
         if (index !== -1) {
 
-            items[index].name = req.body.name || items[index].name;
-            items[index].email = req.body.email || items[index].email;
-            items[index].profession = req.body.profession || items[index].profession;
-            items[index].experience = req.body.experience || items[index].experience;
+            items[index].name = req.body.name !== undefined ? req.body.name : items[index].name;
+            items[index].email = req.body.email !== undefined ? req.body.email : items[index].email;
+            items[index].profession = req.body.profession !== undefined ? req.body.profession : items[index].profession;
+            items[index].experience = req.body.experience !== undefined ? req.body.experience : items[index].experience;
             items[index].salary = req.body.salary !== undefined ? req.body.salary : items[index].salary;
             items[index].hike = req.body.hike !== undefined ? req.body.hike : items[index].hike;
             items[index].salary_after_hike = req.body.salary_after_hike !== undefined ? req.body.salary_after_hike : items[index].salary_after_hike;
